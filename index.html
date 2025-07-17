@@ -10,7 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="/index.css">
 </head>
 <body>
     <header id="header">
@@ -350,7 +349,148 @@
         </div>
     </footer>
 
-    <script src="index.tsx"></script>
-<script type="module" src="/index.tsx"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // --- Mobile Navigation ---
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        if (hamburgerMenu && navLinks) {
+            hamburgerMenu.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+
+            // Close menu when a link is clicked
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        // --- Sticky Header Style ---
+        const header = document.getElementById('header');
+        if (header) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        }
+
+        // --- Smooth Scrolling for all anchor links ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                // Prevent default only for internal links, allowing modal CTAs to work
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const targetElement = document.querySelector(href);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        // --- Fade-in on scroll animation ---
+        const sections = document.querySelectorAll('.content-section');
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+        
+        // --- Form Submission ---
+        const form = document.getElementById('contact-form');
+        if(form) {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Thank you for your request! We will be in touch shortly.');
+                form.reset();
+            });
+        }
+
+        // --- Modal Logic ---
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+        const modalCloseButton = document.getElementById('modal-close-button');
+        const modalTriggers = document.querySelectorAll('.modal-trigger');
+
+        function openModal(title, content) {
+            if (!modal || !modalTitle || !modalBody) return;
+            
+            modalTitle.innerHTML = title;
+            modalBody.innerHTML = content;
+            
+            modal.classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeModal() {
+            if (!modal) return;
+            
+            modal.classList.remove('active');
+            document.body.classList.remove('modal-open');
+        }
+
+        modalTriggers.forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const title = trigger.dataset.modalTitle;
+                const content = trigger.dataset.modalContent;
+                if (title && content) {
+                    openModal(title, content);
+                }
+            });
+        });
+
+        if (modalCloseButton) {
+            modalCloseButton.addEventListener('click', closeModal);
+        }
+        
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                // Close if clicked on the overlay, but not on the content
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape" && modal?.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        // Handle clicks inside the modal that are anchor links
+        if (modalBody) {
+            modalBody.addEventListener('click', (e) => {
+                if (e.target instanceof HTMLAnchorElement && e.target.getAttribute('href')?.startsWith('#')) {
+                    closeModal();
+                }
+            });
+        }
+    });
+    </script>
 </body>
 </html>
