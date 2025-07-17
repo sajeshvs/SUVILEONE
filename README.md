@@ -30,7 +30,7 @@ The core brand proposition is **"Radical Transparency and Proactive Partnership,
 *   **HTML5:** For the core structure and content.
 *   **CSS3:** For all styling, layout (Flexbox & Grid), and responsiveness.
     *   **CSS Variables:** For easy theme and color management.
-*   **TypeScript:** For interactive client-side functionality, including modal logic, form handling, and navigation.
+*   **JavaScript (ES6):** For all interactive client-side functionality. All JavaScript is self-contained within the `index.html` file, requiring no build step.
 *   **Font Awesome:** For iconography throughout the site.
 *   **Google Fonts:** For the 'Poppins' font family.
 
@@ -41,7 +41,6 @@ The core brand proposition is **"Radical Transparency and Proactive Partnership,
 ├── README.md
 ├── index.html
 ├── index.css
-├── index.tsx
 └── metadata.json
 ```
 
@@ -64,5 +63,3 @@ This project is a direct translation of a business plan into a functional websit
 *   **Proactive Partnership:** The "Dubai Home Hacks" blog section and the educational content within modals position the company as a partner, not just a service provider.
 *   **Tech-Driven Service:** The integration of a WhatsApp chat button and the conceptual framework for live job updates (as described in the "Why Us" section) reflect a modern, tech-forward approach.
 *   **Human-Centric Branding:** The "Meet The Techs" section directly addresses the goal of humanizing the service and building trust by putting a face to the name.
-
-
